@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var app = express();
 
 require('./models/User');
+require('./config/passport');
 app.use(require('./routes'));
 
 // // view engine setup
