@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var uniquireValidator = require('mongoose-uniquie-validator');
 var slug = require('slug');
+var User = mongoose.model('User');
 
 
 var ArticleSchema = new mongoose.Schema({
@@ -25,6 +26,16 @@ ArticleSchema.methods.slugify = function(){
     this.slug = slug(this.title);
 };
 
+ArticleSchema.methods.updateFavoriteCount = function() {
+    var article = this;
+
+    return User.count({favorites : {$in: [article._id]}}).then(function(count){
+        article.favoritesCount = count;
+
+        return article.save();
+    });
+};
+
 ArticleSchema.methods.toJSONFor = function(uesr){
     return {
         slug: this.slug,
@@ -34,6 +45,7 @@ ArticleSchema.methods.toJSONFor = function(uesr){
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
         tagList: this.tagList,
+        favorited: user ? user.isFavorite(this._id) : false,
         favoritesCount: this.favoritesCount,
         author: this.author.toProfileJSONFor(user)
     };   
