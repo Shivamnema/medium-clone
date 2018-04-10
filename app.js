@@ -10,7 +10,8 @@ var indexRouter = require('./routes/index');
 var app = express();
 
 require('./models/User');
-require('./models/Article')
+require('./models/Article');
+require('./model/Comment');
 require('./config/passport');
 app.use(require('./routes'));
 
