@@ -14,6 +14,7 @@ require('./models/Article');
 require('./model/Comment');
 require('./config/passport');
 app.use(require('./routes'));
+router.use('/tags', require('./tags'));
 
 // // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
